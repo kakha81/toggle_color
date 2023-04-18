@@ -1,0 +1,2 @@
+#root,.App,body,html{height:100%}.App{align-items:center;display:flex;justify-content:center}.guess-me{height:200px;margin-bottom:10px;width:330px}button{font-size:18px;margin-bottom:20px;padding:10px}button+button{margin-left:20px}.wrong{color:red}.correct,.wrong{font-size:20px;text-align:center}.correct{color:green}
+/*# sourceMappingURL=main.ecc7dc79.css.map*/
