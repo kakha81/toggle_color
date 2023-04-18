@@ -1,24 +1,72 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+const getRandomColor = () => {
+  const digits = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+  ];
+
+  const color = new Array(6)
+    .fill('')
+    .map(() => digits[Math.floor(Math.random() * digits.length)])
+    .join('');
+  return `#${color}`;
+};
 
 function App() {
+  const [color, setColor] = useState('');
+  const [answers, setAnswers] = useState<string[]>([]);
+  const [result, setResult] = useState<boolean | undefined>(undefined);
+
+  const generateColors = () => {
+    const actualColor = getRandomColor();
+    setColor(actualColor);
+    setAnswers(
+      [actualColor, getRandomColor(), getRandomColor()].sort(
+        () => 0.5 - Math.random()
+      )
+    );
+  };
+
+  useEffect(() => {
+    generateColors();
+  }, []);
+
+  const handleAnswerClicked = (answer: string) => {
+    if (answer === color) {
+      setResult(true);
+      generateColors();
+    } else {
+      setResult(false);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <div>
+        <div className='guess-me' style={{ background: color }}></div>
+        {answers.map((answer) => (
+          <button onClick={() => handleAnswerClicked(answer)} key={answer}>
+            {answer}
+          </button>
+        ))}
+        {result === true && <div className='correct'>Correct!</div>}
+        {result === false && <div className='wrong'>Wrong Answer</div>}
+      </div>
     </div>
   );
 }
